@@ -29,7 +29,7 @@ imap <Leader>j <ESC>
 nmap <Leader>nl :nohl<CR>
 
 " Fold automatically
-set fdm=indent
+"set fdm=indent
 
 """"""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -131,7 +131,6 @@ nnoremap <Leader>gb <c-o>
 " Enable syntax highlighting
 syntax enable
 
-colorscheme jellybeans
 hi Normal ctermfg=white
 set t_Co=256
 
@@ -142,6 +141,15 @@ set encoding=utf8
 """"""""""""""""""""""""""""""""""""""""""
 " => VIM Plugins
 """"""""""""""""""""""""""""""""""""""""""
+
+" => YouCompleteMe
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"  "enter selection
+let g:ycm_server_python_interpreter='/usr/bin/python'
+let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'
+let g:ycm_seed_identifiers_with_syntax=1   "keyword complete
+let g:ycm_complete_in_strings=1  "complete in strings
+let g:ycm_complete_in_comments = 1  "also complete in comments
+set completeopt=longest,menu   "complete menu setting
 
 " => NERDTree and Tagbar"
 map <Leader>nt :NERDTreeToggle<CR>
@@ -179,11 +187,10 @@ let g:ctrlsf_case_sensitive = 'smart'
 " git clone https://github.com/powerline/fonts.git
 " ./install.sh
 " set terminal font->Profiles->Default(Edit)->General->Font 
-set guifont=DejaVu\ Sans\ Mono\ for\ Powerline
+set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ Book
 set laststatus=2
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='jellybeans'
 
 
 " => Ctrlspace
@@ -218,36 +225,19 @@ au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
-
-" => YouCompleteMe
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"  "enter selection
-let g:ycm_seed_identifiers_with_syntax=1   "keyword complete
-let g:ycm_complete_in_strings=1  "complete in strings
-let g:ycm_complete_in_comments = 1  "also complete in comments
-set completeopt=longest,menu   "complete menu setting
-
-let g:UltiSnipsExpandTrigger="<F2>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-
-" => Vim-instant-markdown
-map <Leader>md :InstantMarkdownPreview<CR>
-let g:instant_markdown_autostart = 0
-
 """"""""""""""""""""""""""""""""""""""""""
 " => Vundle settings
 """"""""""""""""""""""""""""""""""""""""""
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/vundle
 call vundle#begin()
 
 "Let Vundle manage itself
 " Let Vundle manage itself
 " Must run git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-Plugin 'gmarik/Vundle.vim'
+Plugin 'gmarik/vundle'
 
 " Easily move, very useful
 Plugin 'easymotion/vim-easymotion'
@@ -260,6 +250,15 @@ Plugin 'Rip-Rip/clang_complete'
 
 " Python complete
 Plugin 'davidhalter/jedi'
+
+" Python Indent
+Plugin 'vim-scripts/indentpython.vim'
+
+" Python Indent Line
+Plugin 'Yggdroot/indentLine'
+
+" Auto Pairs
+Plugin 'jiangmiao/auto-pairs'
 
 " Search in Project
 Plugin 'dyng/ctrlsf.vim'
@@ -276,48 +275,11 @@ Plugin 'majutsushi/tagbar'
 " Buffer move 
 Plugin 'szw/vim-ctrlspace'
 
-" Instantly preview markdown in browser
-" First must have node.js with npm installed
-" [sudo] npm -g install instant-markdown-d
-" Install xdg-utils package(default installed in Ubuntu)
-" Ensure filetype plugin on in .vimrc
-Plugin 'suan/vim-instant-markdown'
-
-" Mardown and Pandoc
-" using Mardown to write doc, and Pandoc can tranform it to
-" html, pdf, tex and so on
-" pandoc test.md --latex-engine=xelatex -o test.pdf -V mainfont=...
-" --template=pandoc.template
-
 " C++ Highlight
 Plugin 'octol/vim-cpp-enhanced-highlight'
 
 " Python Highlight
 Plugin 'hdima/python-syntax'
-
-" Markdown Highlight
-Plugin 'plasticboy/vim-markdown'
-
-" JS Highlight
-Plugin 'pangloss/vim-javascript'
-
-" Jquery Highlight
-Plugin 'nono/jquery.vim'
-
-" Jinja2 Highlight
-Plugin 'Glench/Vim-Jinja2-Syntax'
-
-" Nginx Highlight
-Plugin 'evanmiller/nginx-vim-syntax'
-
-" Css Highlight
-Plugin 'JulesWang/css.vim'
-
-" Less Highlight
-Plugin 'groenewege/vim-less'
-
-" Grunt Highlight
-Plugin 'mklabs/grunt.vim'
 
 " Code comment
 Plugin 'scrooloose/nerdcommenter' 
@@ -342,9 +304,6 @@ Plugin 'terryma/vim-multiple-cursors'
 
 " Airline
 Plugin 'bling/vim-airline'
-
-" Git
-Plugin 'tpope/vim-fugitive'
 
 call vundle#end()
 filetype plugin indent on
